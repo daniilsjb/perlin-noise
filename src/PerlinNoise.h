@@ -119,7 +119,7 @@ float PerlinNoise2D(float x, float y)
     h11 = p[p[xi + 1] + yi + 1];
 
     //Linearly interpolate between dot products of each gradient with its distance to the input location
-    float x1 = Lerp(DotGrad(h00, xf, yf), DotGrad(h10, xf - 1.0f, yf), u);
+    float x1 = Lerp(DotGrad(h00, xf, yf       ), DotGrad(h10, xf - 1.0f, yf       ), u);
     float x2 = Lerp(DotGrad(h01, xf, yf - 1.0f), DotGrad(h11, xf - 1.0f, yf - 1.0f), u);
     return Lerp(x1, x2, v);
 }
@@ -192,11 +192,11 @@ float PerlinNoise3D(float x, float y, float z)
 
     //Linearly interpolate between dot products of each gradient with its distance to the input location
     float x1, x2, y1, y2;
-    x1 = Lerp(DotGrad(h000, xf, yf, zf), DotGrad(h100, xf - 1.0f, yf, zf), u);
+    x1 = Lerp(DotGrad(h000, xf, yf       , zf), DotGrad(h100, xf - 1.0f, yf       , zf), u);
     x2 = Lerp(DotGrad(h010, xf, yf - 1.0f, zf), DotGrad(h110, xf - 1.0f, yf - 1.0f, zf), u);
     y1 = Lerp(x1, x2, v);
 
-    x1 = Lerp(DotGrad(h001, xf, yf, zf - 1.0f), DotGrad(h101, xf - 1.0f, yf, zf - 1.0f), u);
+    x1 = Lerp(DotGrad(h001, xf, yf       , zf - 1.0f), DotGrad(h101, xf - 1.0f, yf       , zf - 1.0f), u);
     x2 = Lerp(DotGrad(h011, xf, yf - 1.0f, zf - 1.0f), DotGrad(h111, xf - 1.0f, yf - 1.0f, zf - 1.0f), u);
     y2 = Lerp(x1, x2, v);
 
