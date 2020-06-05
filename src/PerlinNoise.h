@@ -60,7 +60,7 @@ float PerlinNoise1D(float x)
 
     //Generate hash values for each point of the unit-line
     int h0, h1;
-    h0 = p[xi];
+    h0 = p[xi    ];
     h1 = p[xi + 1];
 
     //Linearly interpolate between dot products of each gradient with its distance to the input location
@@ -113,9 +113,9 @@ float PerlinNoise2D(float x, float y)
 
     //Generate hash values for each point of the unit-square
     int h00, h01, h10, h11;
-    h00 = p[p[xi] + yi];
-    h01 = p[p[xi] + yi + 1];
-    h10 = p[p[xi + 1] + yi];
+    h00 = p[p[xi    ] + yi    ];
+    h01 = p[p[xi    ] + yi + 1];
+    h10 = p[p[xi + 1] + yi    ];
     h11 = p[p[xi + 1] + yi + 1];
 
     //Linearly interpolate between dot products of each gradient with its distance to the input location
@@ -181,13 +181,13 @@ float PerlinNoise3D(float x, float y, float z)
 
     //Generate hash values for each point of the unit-cube
     int h000, h001, h010, h011, h100, h101, h110, h111;
-    h000 = p[p[p[xi] + yi] + zi];
-    h001 = p[p[p[xi] + yi] + zi + 1];
-    h010 = p[p[p[xi] + yi + 1] + zi];
-    h011 = p[p[p[xi] + yi + 1] + zi + 1];
-    h100 = p[p[p[xi + 1] + yi] + zi];
-    h101 = p[p[p[xi + 1] + yi] + zi + 1];
-    h110 = p[p[p[xi + 1] + yi + 1] + zi];
+    h000 = p[p[p[xi    ] + yi    ] + zi    ];
+    h001 = p[p[p[xi    ] + yi    ] + zi + 1];
+    h010 = p[p[p[xi    ] + yi + 1] + zi    ];
+    h011 = p[p[p[xi    ] + yi + 1] + zi + 1];
+    h100 = p[p[p[xi + 1] + yi    ] + zi    ];
+    h101 = p[p[p[xi + 1] + yi    ] + zi + 1];
+    h110 = p[p[p[xi + 1] + yi + 1] + zi    ];
     h111 = p[p[p[xi + 1] + yi + 1] + zi + 1];
 
     //Linearly interpolate between dot products of each gradient with its distance to the input location
