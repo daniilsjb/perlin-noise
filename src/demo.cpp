@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "PerlinNoise.h"
+#include "../PerlinNoise.h"
 
 int main() {
     const int width = 800;
