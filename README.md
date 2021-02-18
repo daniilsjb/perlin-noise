@@ -1,5 +1,11 @@
 # Perlin Noise
 
-![](preview.png)
+![Preview Image](preview.png)
 
-Quick and simple implementation and visualization of Perlin Noise algorithm in 1D, 2D, and 3D. The algorithm itself is implemented in raw C++, and the rendering is done with SFML.
+## Features
+
+Quick and simple implementation of Perlin Noise algorithm in 1D, 2D, and 3D in C++ with no external dependencies. This code may easily be reused by simply including the header and source files into any project. All relevant code is written as a small set of pure functions that work with both floats and doubles.
+
+## Demo
+
+The repository contains a small demonstraction written with [https://www.sfml-dev.org/](SFML) that displays the 3D noise as an animated grayscale with respect to time.
