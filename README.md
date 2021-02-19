@@ -8,4 +8,4 @@ Quick and simple implementation of Perlin Noise algorithm in 1D, 2D, and 3D in C
 
 ## Demo
 
-The repository contains a small demonstraction written with [SFML](https://www.sfml-dev.org/) that displays the 3D noise as an animated grayscale with respect to time.
+The repository contains a small demonstration written with [SFML](https://www.sfml-dev.org/) that displays the 3D noise as an animated grayscale with respect to time.
