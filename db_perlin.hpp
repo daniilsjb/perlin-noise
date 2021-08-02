@@ -4,7 +4,7 @@
  *
  * The following is an implementation of Ken Perlin's Improved Noise in 1D, 2D, and 3D.
  * This code has no external dependencies and as such may easily be used as a library
- * in other projects.:
+ * in other projects.
  *
  * I wrote this with the primary goal of having a bit of fun and learning more about the
  * famous algorithm used everywhere in procedural generation. Ultimately, my goal was to
