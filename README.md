@@ -37,9 +37,9 @@ int main() {
     float y = /* ... */;
     float z = /* ... */;
     
-    float noise1D = db::noise(x);
-    float noise2D = db::noise(x, y);
-    float noise3D = db::noise(x, y, z);
+    float noise1D = db::perlin(x);
+    float noise2D = db::perlin(x, y);
+    float noise3D = db::perlin(x, y, z);
 }
 ```
 
@@ -57,9 +57,9 @@ int main() {
     float y = /* ... */;
     float z = /* ... */;
     
-    float noise1D = db::noise(x);
-    float noise2D = db::noise(x, y);
-    float noise3D = db::noise(x, y, z);
+    float noise1D = db::perlin(x);
+    float noise2D = db::perlin(x, y);
+    float noise3D = db::perlin(x, y, z);
 }
 ```
 
