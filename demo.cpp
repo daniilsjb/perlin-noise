@@ -1,5 +1,14 @@
+/*
+ * Simple demonstration of the Perlin Noise algorithm.
+ *
+ * To set up SFML, refer to the official website:
+ * https://www.sfml-dev.org/
+ */
+
 #include <SFML/Graphics.hpp>
-#include "../PerlinNoise.h"
+
+#define DB_PERLIN_IMPL
+#include "db_perlin.hpp"
 
 int main() {
     const int width = 800;
@@ -18,7 +27,7 @@ int main() {
 
     sf::Clock clock;
     while (window.isOpen()) {
-        float elapsedTime = clock.getElapsedTime().asSeconds();
+        float dt = clock.getElapsedTime().asSeconds();
 
         sf::Event ev;
         while (window.pollEvent(ev)) {
@@ -30,8 +39,8 @@ int main() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 float noise = (
-                    PerlinNoise::Noise((float)x / 64.f, (float)y / 64.f, elapsedTime * 0.25f) * 1.0f +
-                    PerlinNoise::Noise((float)x / 32.f, (float)y / 32.f, elapsedTime * 0.75f) * 0.5f
+                    db::perlin((float)x / 64.0f, (float)y / 64.0f, dt * 0.25f) * 1.0f +
+                    db::perlin((float)x / 32.0f, (float)y / 32.0f, dt * 0.75f) * 0.5f
                 ) / 1.5f;
 
                 sf::Uint8 brightness = (int)((noise * 0.5f + 0.5f) * 255.0f);
