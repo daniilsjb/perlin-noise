@@ -19,7 +19,7 @@
  * 
  * ```cpp
  * #define DB_PERLIN_IMPL
- * #include "db_perlin.h"
+ * #include "db_perlin.hpp"
  * ```
  * 
  * Compile that file together with the rest of the program, and all other files may then simply
