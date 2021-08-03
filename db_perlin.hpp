@@ -12,19 +12,19 @@
  * generator lying around). I hope it could be useful to other people, too!
  *
  * Usage:
- * 
+ *
  * This code is written as a single-header library using the same technique as stb libraries.
  * There must be exactly one source file (C++) which defines symbol `DB_PERLIN_IMPL` before
  * including this header. You may place such implementation in a dedicated file:
- * 
+ *
  * ```cpp
  * #define DB_PERLIN_IMPL
  * #include "db_perlin.hpp"
  * ```
- * 
+ *
  * Compile that file together with the rest of the program, and all other files may then simply
  * include this header without any additional work.
- * 
+ *
  * To generate noise, simply use the `perlin` function under `db` namespace. There are three
  * overloads accounting for each dimension, so pass 1-3 arguments to generate noise in the
  * corresponding number of dimensions.
@@ -38,13 +38,13 @@
 
 namespace db {
     template<typename T>
-    auto perlin(T x) -> T;
+    auto perlin(T x)->T;
 
     template<typename T>
-    auto perlin(T x, T y) -> T;
+    auto perlin(T x, T y)->T;
 
     template<typename T>
-    auto perlin(T x, T y, T z) -> T;
+    auto perlin(T x, T y, T z)->T;
 }
 
 #ifdef DB_PERLIN_IMPL
@@ -55,7 +55,7 @@ namespace db {
  *
  * A reference implementation in Java by Ken Perlin, the author of the algorithm:
  * https://mrl.cs.nyu.edu/~perlin/noise/
- * 
+ *
  * Here are some alternative implementations that were used as inspirations:
  * https://github.com/nothings/stb/blob/master/stb_perlin.h
  * https://github.com/stegu/perlin-noise/blob/master/src/noise1234.c
@@ -63,7 +63,7 @@ namespace db {
 
 namespace db {
     // Permutation table, the second half is a mirror of the first half.
-    static unsigned char p[512] = {
+    static unsigned char const p[512] = {
         151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,
         8,99,37,240,21,10,23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,
         117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,68,175,74,
@@ -158,105 +158,102 @@ namespace db {
             case 0xF: return -yf - zf;
             default:  return  T(0.0);
         }
-    };
+    }
 
     template<typename T>
     auto perlin(T x) -> T {
         // Left coordinate of the unit-line that contains the input
         int xi = floor(x);
-    
+
         // Input location in the unit-line
         T xf = x - xi;
-    
+
         // Wrap to range 0-255
         xi &= 0xFF;
-    
+
         // Apply the fade function to the location
         T u = fade(xf);
-    
+
         // Generate hash values for each point of the unit-line
-        int h0, h1;
-        h0 = p[xi    ];
-        h1 = p[xi + 1];
-    
+        int h0 = p[xi];
+        int h1 = p[xi + 1];
+
         // Linearly interpolate between dot products of each gradient with its distance to the input location
         return lerp(dot_grad(h0, xf), dot_grad(h1, xf - T(1.0)), u);
     }
-    
+
     template<typename T>
     auto perlin(T x, T y) -> T {
         // Top-left coordinates of the unit-square
         int xi = floor(x);
         int yi = floor(y);
-    
+
         // Input location in the unit-square
         T xf = x - xi;
         T yf = y - yi;
-    
+
         // Wrap to range 0-255
         xi &= 0xFF;
         yi &= 0xFF;
-    
+
         // Apply the fade function to the location
         T u = fade(xf);
         T v = fade(yf);
-    
+
         // Generate hash values for each point of the unit-square
-        int h00, h01, h10, h11;
-        h00 = p[p[xi    ] + yi    ];
-        h01 = p[p[xi    ] + yi + 1];
-        h10 = p[p[xi + 1] + yi    ];
-        h11 = p[p[xi + 1] + yi + 1];
-    
+        int h00 = p[p[xi] + yi];
+        int h01 = p[p[xi] + yi + 1];
+        int h10 = p[p[xi + 1] + yi];
+        int h11 = p[p[xi + 1] + yi + 1];
+
         // Linearly interpolate between dot products of each gradient with its distance to the input location
-        T x1 = lerp(dot_grad(h00, xf, yf         ), dot_grad(h10, xf - T(1.0), yf         ), u);
+        T x1 = lerp(dot_grad(h00, xf, yf), dot_grad(h10, xf - T(1.0), yf), u);
         T x2 = lerp(dot_grad(h01, xf, yf - T(1.0)), dot_grad(h11, xf - T(1.0), yf - T(1.0)), u);
         return lerp(x1, x2, v);
     }
-    
+
     template<typename T>
     auto perlin(T x, T y, T z) -> T {
         // Top-left coordinates of the unit-cube
         int xi = floor(x);
         int yi = floor(y);
         int zi = floor(z);
-    
+
         // Input location in the unit-cube
         T xf = x - xi;
         T yf = y - yi;
         T zf = z - zi;
-    
+
         // Wrap to range 0-255
         xi &= 0xFF;
         yi &= 0xFF;
         zi &= 0xFF;
-    
+
         // Apply the fade function to the location
         T u = fade(xf);
         T v = fade(yf);
         T w = fade(zf);
-    
+
         // Generate hash values for each point of the unit-cube
-        int h000, h001, h010, h011, h100, h101, h110, h111;
-        h000 = p[p[p[xi    ] + yi    ] + zi    ];
-        h001 = p[p[p[xi    ] + yi    ] + zi + 1];
-        h010 = p[p[p[xi    ] + yi + 1] + zi    ];
-        h011 = p[p[p[xi    ] + yi + 1] + zi + 1];
-        h100 = p[p[p[xi + 1] + yi    ] + zi    ];
-        h101 = p[p[p[xi + 1] + yi    ] + zi + 1];
-        h110 = p[p[p[xi + 1] + yi + 1] + zi    ];
-        h111 = p[p[p[xi + 1] + yi + 1] + zi + 1];
-    
+        int h000 = p[p[p[xi] + yi] + zi];
+        int h001 = p[p[p[xi] + yi] + zi + 1];
+        int h010 = p[p[p[xi] + yi + 1] + zi];
+        int h011 = p[p[p[xi] + yi + 1] + zi + 1];
+        int h100 = p[p[p[xi + 1] + yi] + zi];
+        int h101 = p[p[p[xi + 1] + yi] + zi + 1];
+        int h110 = p[p[p[xi + 1] + yi + 1] + zi];
+        int h111 = p[p[p[xi + 1] + yi + 1] + zi + 1];
+
         // Linearly interpolate between dot products of each gradient with its distance to the input location
         T x1, x2, y1, y2;
-        x1 = lerp(dot_grad(h000, xf, yf         , zf         ), dot_grad(h100, xf - T(1.0), yf         , zf         ), u);
-        x2 = lerp(dot_grad(h010, xf, yf - T(1.0), zf         ), dot_grad(h110, xf - T(1.0), yf - T(1.0), zf         ), u);
+        x1 = lerp(dot_grad(h000, xf, yf, zf), dot_grad(h100, xf - T(1.0), yf, zf), u);
+        x2 = lerp(dot_grad(h010, xf, yf - T(1.0), zf), dot_grad(h110, xf - T(1.0), yf - T(1.0), zf), u);
         y1 = lerp(x1, x2, v);
-    
-        x1 = lerp(dot_grad(h001, xf, yf         , zf - T(1.0)), dot_grad(h101, xf - T(1.0), yf         , zf - T(1.0)), u);
+
+        x1 = lerp(dot_grad(h001, xf, yf, zf - T(1.0)), dot_grad(h101, xf - T(1.0), yf, zf - T(1.0)), u);
         x2 = lerp(dot_grad(h011, xf, yf - T(1.0), zf - T(1.0)), dot_grad(h111, xf - T(1.0), yf - T(1.0), zf - T(1.0)), u);
         y2 = lerp(x1, x2, v);
-    
+
         return lerp(y1, y2, w);
     }
 }
