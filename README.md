@@ -1,6 +1,6 @@
 # Perlin Noise
 
-![Preview Image](preview/preview.png)
+![Preview Image](preview/noise.gif)
 
 ## About
 
