@@ -38,13 +38,13 @@
 
 namespace db {
     template<typename T>
-    auto perlin(T x)->T;
+    auto perlin(T x) -> T;
 
     template<typename T>
-    auto perlin(T x, T y)->T;
+    auto perlin(T x, T y) -> T;
 
     template<typename T>
-    auto perlin(T x, T y, T z)->T;
+    auto perlin(T x, T y, T z) -> T;
 }
 
 #ifdef DB_PERLIN_IMPL
@@ -175,7 +175,7 @@ namespace db {
         T u = fade(xf);
 
         // Generate hash values for each point of the unit-line
-        int h0 = p[xi];
+        int h0 = p[xi    ];
         int h1 = p[xi + 1];
 
         // Linearly interpolate between dot products of each gradient with its distance to the input location
@@ -201,13 +201,13 @@ namespace db {
         T v = fade(yf);
 
         // Generate hash values for each point of the unit-square
-        int h00 = p[p[xi] + yi];
-        int h01 = p[p[xi] + yi + 1];
-        int h10 = p[p[xi + 1] + yi];
+        int h00 = p[p[xi    ] + yi    ];
+        int h01 = p[p[xi    ] + yi + 1];
+        int h10 = p[p[xi + 1] + yi    ];
         int h11 = p[p[xi + 1] + yi + 1];
 
         // Linearly interpolate between dot products of each gradient with its distance to the input location
-        T x1 = lerp(dot_grad(h00, xf, yf), dot_grad(h10, xf - T(1.0), yf), u);
+        T x1 = lerp(dot_grad(h00, xf, yf         ), dot_grad(h10, xf - T(1.0), yf         ), u);
         T x2 = lerp(dot_grad(h01, xf, yf - T(1.0)), dot_grad(h11, xf - T(1.0), yf - T(1.0)), u);
         return lerp(x1, x2, v);
     }
@@ -235,22 +235,22 @@ namespace db {
         T w = fade(zf);
 
         // Generate hash values for each point of the unit-cube
-        int h000 = p[p[p[xi] + yi] + zi];
-        int h001 = p[p[p[xi] + yi] + zi + 1];
-        int h010 = p[p[p[xi] + yi + 1] + zi];
-        int h011 = p[p[p[xi] + yi + 1] + zi + 1];
-        int h100 = p[p[p[xi + 1] + yi] + zi];
-        int h101 = p[p[p[xi + 1] + yi] + zi + 1];
-        int h110 = p[p[p[xi + 1] + yi + 1] + zi];
+        int h000 = p[p[p[xi    ] + yi    ] + zi    ];
+        int h001 = p[p[p[xi    ] + yi    ] + zi + 1];
+        int h010 = p[p[p[xi    ] + yi + 1] + zi    ];
+        int h011 = p[p[p[xi    ] + yi + 1] + zi + 1];
+        int h100 = p[p[p[xi + 1] + yi    ] + zi    ];
+        int h101 = p[p[p[xi + 1] + yi    ] + zi + 1];
+        int h110 = p[p[p[xi + 1] + yi + 1] + zi    ];
         int h111 = p[p[p[xi + 1] + yi + 1] + zi + 1];
 
         // Linearly interpolate between dot products of each gradient with its distance to the input location
         T x1, x2, y1, y2;
-        x1 = lerp(dot_grad(h000, xf, yf, zf), dot_grad(h100, xf - T(1.0), yf, zf), u);
+        x1 = lerp(dot_grad(h000, xf, yf         , zf), dot_grad(h100, xf - T(1.0), yf         , zf), u);
         x2 = lerp(dot_grad(h010, xf, yf - T(1.0), zf), dot_grad(h110, xf - T(1.0), yf - T(1.0), zf), u);
         y1 = lerp(x1, x2, v);
 
-        x1 = lerp(dot_grad(h001, xf, yf, zf - T(1.0)), dot_grad(h101, xf - T(1.0), yf, zf - T(1.0)), u);
+        x1 = lerp(dot_grad(h001, xf, yf         , zf - T(1.0)), dot_grad(h101, xf - T(1.0), yf         , zf - T(1.0)), u);
         x2 = lerp(dot_grad(h011, xf, yf - T(1.0), zf - T(1.0)), dot_grad(h111, xf - T(1.0), yf - T(1.0), zf - T(1.0)), u);
         y2 = lerp(x1, x2, v);
 
