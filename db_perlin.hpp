@@ -246,8 +246,8 @@ namespace db {
 
         // Linearly interpolate between dot products of each gradient with its distance to the input location
         T x1, x2, y1, y2;
-        x1 = lerp(dot_grad(h000, xf, yf         , zf), dot_grad(h100, xf - T(1.0), yf         , zf), u);
-        x2 = lerp(dot_grad(h010, xf, yf - T(1.0), zf), dot_grad(h110, xf - T(1.0), yf - T(1.0), zf), u);
+        x1 = lerp(dot_grad(h000, xf, yf         , zf         ), dot_grad(h100, xf - T(1.0), yf         , zf         ), u);
+        x2 = lerp(dot_grad(h010, xf, yf - T(1.0), zf         ), dot_grad(h110, xf - T(1.0), yf - T(1.0), zf         ), u);
         y1 = lerp(x1, x2, v);
 
         x1 = lerp(dot_grad(h001, xf, yf         , zf - T(1.0)), dot_grad(h101, xf - T(1.0), yf         , zf - T(1.0)), u);
