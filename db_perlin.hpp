@@ -166,20 +166,21 @@ namespace db {
         int const xi0 = floor(x);
 
         // Input location in the unit-line
-        T const xf = x - T(xi0);
+        T const xf0 = x - T(xi0);
+        T const xf1 = xf0 - T(1.0);
 
         // Wrap to range 0-255
         int const xi = xi0 & 0xFF;
 
         // Apply the fade function to the location
-        T const u = fade(xf);
+        T const u = fade(xf0);
 
         // Generate hash values for each point of the unit-line
-        int const h0 = p[xi    ];
+        int const h0 = p[xi + 0];
         int const h1 = p[xi + 1];
 
         // Linearly interpolate between dot products of each gradient with its distance to the input location
-        return lerp(dot_grad(h0, xf), dot_grad(h1, xf - T(1.0)), u);
+        return lerp(dot_grad(h0, xf0), dot_grad(h1, xf1), u);
     }
 
     template<typename T>
@@ -189,26 +190,28 @@ namespace db {
         int const yi0 = floor(y) & 0xFF;
 
         // Input location in the unit-square
-        T const xf = x - T(xi0);
-        T const yf = y - T(yi0);
+        T const xf0 = x - T(xi0);
+        T const yf0 = y - T(yi0);
+        T const xf1 = xf0 - T(1.0);
+        T const yf1 = yf0 - T(1.0);
 
         // Wrap to range 0-255
         int const xi = xi0 & 0xFF;
         int const yi = yi0 & 0xFF;
 
         // Apply the fade function to the location
-        T const u = fade(xf);
-        T const v = fade(yf);
+        T const u = fade(xf0);
+        T const v = fade(yf0);
 
         // Generate hash values for each point of the unit-square
-        int const h00 = p[p[xi    ] + yi    ];
-        int const h01 = p[p[xi    ] + yi + 1];
-        int const h10 = p[p[xi + 1] + yi    ];
+        int const h00 = p[p[xi + 0] + yi + 0];
+        int const h01 = p[p[xi + 0] + yi + 1];
+        int const h10 = p[p[xi + 1] + yi + 0];
         int const h11 = p[p[xi + 1] + yi + 1];
 
         // Linearly interpolate between dot products of each gradient with its distance to the input location
-        T const x1 = lerp(dot_grad(h00, xf, yf         ), dot_grad(h10, xf - T(1.0), yf         ), u);
-        T const x2 = lerp(dot_grad(h01, xf, yf - T(1.0)), dot_grad(h11, xf - T(1.0), yf - T(1.0)), u);
+        T const x1 = lerp(dot_grad(h00, xf0, yf0), dot_grad(h10, xf1, yf0), u);
+        T const x2 = lerp(dot_grad(h01, xf0, yf1), dot_grad(h11, xf1, yf1), u);
         return lerp(x1, x2, v);
     }
 
@@ -220,9 +223,12 @@ namespace db {
         int const zi0 = floor(z);
 
         // Input location in the unit-cube
-        T const xf = x - T(xi0);
-        T const yf = y - T(yi0);
-        T const zf = z - T(zi0);
+        T const xf0 = x - T(xi0);
+        T const yf0 = y - T(yi0);
+        T const zf0 = z - T(zi0);
+        T const xf1 = xf0 - T(1.0);
+        T const yf1 = yf0 - T(1.0);
+        T const zf1 = zf0 - T(1.0);
 
         // Wrap to range 0-255
         int const xi = xi0 & 0xFF;
@@ -230,27 +236,27 @@ namespace db {
         int const zi = zi0 & 0xFF;
 
         // Apply the fade function to the location
-        T const u = fade(xf);
-        T const v = fade(yf);
-        T const w = fade(zf);
+        T const u = fade(xf0);
+        T const v = fade(yf0);
+        T const w = fade(zf0);
 
         // Generate hash values for each point of the unit-cube
-        int const h000 = p[p[p[xi    ] + yi    ] + zi    ];
-        int const h001 = p[p[p[xi    ] + yi    ] + zi + 1];
-        int const h010 = p[p[p[xi    ] + yi + 1] + zi    ];
-        int const h011 = p[p[p[xi    ] + yi + 1] + zi + 1];
-        int const h100 = p[p[p[xi + 1] + yi    ] + zi    ];
-        int const h101 = p[p[p[xi + 1] + yi    ] + zi + 1];
-        int const h110 = p[p[p[xi + 1] + yi + 1] + zi    ];
+        int const h000 = p[p[p[xi + 0] + yi + 0] + zi + 0];
+        int const h001 = p[p[p[xi + 0] + yi + 0] + zi + 1];
+        int const h010 = p[p[p[xi + 0] + yi + 1] + zi + 0];
+        int const h011 = p[p[p[xi + 0] + yi + 1] + zi + 1];
+        int const h100 = p[p[p[xi + 1] + yi + 0] + zi + 0];
+        int const h101 = p[p[p[xi + 1] + yi + 0] + zi + 1];
+        int const h110 = p[p[p[xi + 1] + yi + 1] + zi + 0];
         int const h111 = p[p[p[xi + 1] + yi + 1] + zi + 1];
 
         // Linearly interpolate between dot products of each gradient with its distance to the input location
-        T const x11 = lerp(dot_grad(h000, xf, yf         , zf         ), dot_grad(h100, xf - T(1.0), yf         , zf         ), u);
-        T const x12 = lerp(dot_grad(h010, xf, yf - T(1.0), zf         ), dot_grad(h110, xf - T(1.0), yf - T(1.0), zf         ), u);
-        T const y1 = lerp(x11, x12, v);
+        T const x11 = lerp(dot_grad(h000, xf0, yf0, zf0), dot_grad(h100, xf1, yf0, zf0), u);
+        T const x12 = lerp(dot_grad(h010, xf0, yf1, zf0), dot_grad(h110, xf1, yf1, zf0), u);
+        T const x21 = lerp(dot_grad(h001, xf0, yf0, zf1), dot_grad(h101, xf1, yf0, zf1), u);
+        T const x22 = lerp(dot_grad(h011, xf0, yf1, zf1), dot_grad(h111, xf1, yf1, zf1), u);
 
-        T const x21 = lerp(dot_grad(h001, xf, yf         , zf - T(1.0)), dot_grad(h101, xf - T(1.0), yf         , zf - T(1.0)), u);
-        T const x22 = lerp(dot_grad(h011, xf, yf - T(1.0), zf - T(1.0)), dot_grad(h111, xf - T(1.0), yf - T(1.0), zf - T(1.0)), u);
+        T const y1 = lerp(x11, x12, v);
         T const y2 = lerp(x21, x22, v);
 
         return lerp(y1, y2, w);
