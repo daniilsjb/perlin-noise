@@ -8,7 +8,7 @@
 #include <SFML/Graphics.hpp>
 
 #define DB_PERLIN_IMPL
-#include "db_perlin.hpp"
+#include "../db_perlin.hpp"
 
 int main() {
     const int width = 800;
@@ -53,6 +53,4 @@ int main() {
         window.draw(output);
         window.display();
     }
-
-    return 0;
 }
