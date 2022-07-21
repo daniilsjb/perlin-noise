@@ -51,14 +51,14 @@ namespace db {
 
 /*
  * The implementation was based on this article:
- * https://flafla2.github.io/2014/08/09/perlinnoise.html
+ * - https://flafla2.github.io/2014/08/09/perlinnoise.html
  *
  * A reference implementation in Java by Ken Perlin, the author of the algorithm:
- * https://mrl.cs.nyu.edu/~perlin/noise/
+ * - https://mrl.cs.nyu.edu/~perlin/noise/
  *
  * Here are some alternative implementations that were used as inspirations:
- * https://github.com/nothings/stb/blob/master/stb_perlin.h
- * https://github.com/stegu/perlin-noise/blob/master/src/noise1234.c
+ * - https://github.com/nothings/stb/blob/08e89524f693651819c4de2a29685b36301a08b1/stb_perlin.h [removed from upstream]
+ * - https://github.com/stegu/perlin-noise/blob/master/src/noise1234.c
  */
 
 namespace db {

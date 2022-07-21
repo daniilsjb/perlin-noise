@@ -14,8 +14,8 @@ to have a noise generator lying around). I hope it could be useful to other peop
 
 ## Usage
 
-If you're familiar with stb libraries, there is nothing new to learn here: simply copy the entire `db_perlin.hpp` file
-somewhere in your project and provide exactly one definition of `DB_PERLIN_IMPL` in a source file before including
+If you're familiar with [stb][0] libraries, there is nothing new to learn here: simply copy the entire `db_perlin.hpp`
+file somewhere in your project and provide exactly one definition of `DB_PERLIN_IMPL` in a source file before including
 the header. You may create a dedicated file to serve as the implementation:
 
 ```cpp
@@ -65,5 +65,8 @@ int main() {
 
 ## Demo
 
-A more detailed example is provided with in this repository in [demo.cpp](demo.cpp) file. It is a small demonstration
-written with [SFML](https://www.sfml-dev.org/) that displays the 3D noise as an animated grayscale with respect to time.
+A more detailed example is provided with this repository in [examples/demo.cpp](examples/demo.cpp) file. It is a small
+demonstration written with [SFML][1] that displays the 3D noise as an animated grayscale with respect to time.
+
+[0]: https://github.com/nothings/stb
+[1]: https://www.sfml-dev.org/
