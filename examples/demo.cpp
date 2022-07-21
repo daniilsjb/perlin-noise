@@ -11,8 +11,8 @@
 #include "../db_perlin.hpp"
 
 int main() {
-    const int width { 800 };
-    const int height { 600 };
+    int const width { 800 };
+    int const height { 600 };
 
     sf::RenderWindow window {
         sf::VideoMode { width, height },"Perlin Noise"
@@ -38,15 +38,15 @@ int main() {
             }
         }
 
-        const auto dt = clock.getElapsedTime().asSeconds();
+        auto const dt = clock.getElapsedTime().asSeconds();
         for (auto y = 0u; y < height; ++y) {
             for (auto x = 0u; x < width; ++x) {
-                const auto noise = (
+                auto const noise = (
                     db::perlin(float(x) / 64.0f, float(y) / 64.0f, dt * 0.25f) * 1.0f +
                     db::perlin(float(x) / 32.0f, float(y) / 32.0f, dt * 0.75f) * 0.5f
                 ) / 1.5f;
 
-                const auto brightness = sf::Uint8((noise * 0.5f + 0.5f) * 255.0f);
+                auto const brightness = sf::Uint8((noise * 0.5f + 0.5f) * 255.0f);
                 image.setPixel(x, y, sf::Color(brightness, brightness, brightness));
             }
         }

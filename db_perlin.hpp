@@ -100,7 +100,7 @@ namespace db {
 
     template<typename T>
     static inline auto floor(T x) -> int {
-        const auto xi = int(x);
+        auto const xi = int(x);
         return (x < T(xi)) ? xi - 1 : xi;
     }
 
