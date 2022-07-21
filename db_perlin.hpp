@@ -64,33 +64,33 @@ namespace db {
 namespace db {
     // Permutation table, the second half is a mirror of the first half.
     static unsigned char const p[512] = {
-        151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,
-        8,99,37,240,21,10,23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,
-        117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,68,175,74,
-        165,71,134,139,48,27,166,77,146,158,231,83,111,229,122,60,211,133,230,220,
-        105,92,41,55,46,245,40,244,102,143,54,65,25,63,161,1,216,80,73,209,76,132,
-        187,208,89,18,169,200,196,135,130,116,188,159,86,164,100,109,198,173,186,
-        3,64,52,217,226,250,124,123,5,202,38,147,118,126,255,82,85,212,207,206,59,
-        227,47,16,58,17,182,189,28,42,223,183,170,213,119,248,152,2,44,154,163,70,
-        221,153,101,155,167,43,172,9,129,22,39,253,19,98,108,110,79,113,224,232,178,
-        185,112,104,218,246,97,228,251,34,242,193,238,210,144,12,191,179,162,241,
-        81,51,145,235,249,14,239,107,49,192,214,31,181,199,106,157,184,84,204,176,
-        115,121,50,45,127,4,150,254,138,236,205,93,222,114,67,29,24,72,243,141,128,195,
-        78,66,215,61,156,180,
+        151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142,
+        8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203,
+        117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74,
+        165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220,
+        105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132,
+        187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186,
+        3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59,
+        227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70,
+        221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178,
+        185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241,
+        81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176,
+        115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195,
+        78, 66, 215, 61, 156, 180,
 
-        151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,
-        8,99,37,240,21,10,23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,
-        117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,68,175,74,
-        165,71,134,139,48,27,166,77,146,158,231,83,111,229,122,60,211,133,230,220,
-        105,92,41,55,46,245,40,244,102,143,54,65,25,63,161,1,216,80,73,209,76,132,
-        187,208,89,18,169,200,196,135,130,116,188,159,86,164,100,109,198,173,186,
-        3,64,52,217,226,250,124,123,5,202,38,147,118,126,255,82,85,212,207,206,59,
-        227,47,16,58,17,182,189,28,42,223,183,170,213,119,248,152,2,44,154,163,70,
-        221,153,101,155,167,43,172,9,129,22,39,253,19,98,108,110,79,113,224,232,178,
-        185,112,104,218,246,97,228,251,34,242,193,238,210,144,12,191,179,162,241,
-        81,51,145,235,249,14,239,107,49,192,214,31,181,199,106,157,184,84,204,176,
-        115,121,50,45,127,4,150,254,138,236,205,93,222,114,67,29,24,72,243,141,128,195,
-        78,66,215,61,156,180,
+        151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142,
+        8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203,
+        117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74,
+        165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220,
+        105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132,
+        187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186,
+        3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59,
+        227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70,
+        221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178,
+        185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241,
+        81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176,
+        115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195,
+        78, 66, 215, 61, 156, 180,
     };
 
     template<typename T>
@@ -100,8 +100,8 @@ namespace db {
 
     template<typename T>
     static inline auto floor(T x) -> int {
-        int xi = (int)x;
-        return (x < xi) ? xi - 1 : xi;
+        const auto xi = int(x);
+        return (x < T(xi)) ? xi - 1 : xi;
     }
 
     template<typename T>
@@ -163,20 +163,20 @@ namespace db {
     template<typename T>
     auto perlin(T x) -> T {
         // Left coordinate of the unit-line that contains the input
-        int xi = floor(x);
+        int const xi0 = floor(x);
 
         // Input location in the unit-line
-        T xf = x - xi;
+        T const xf = x - T(xi0);
 
         // Wrap to range 0-255
-        xi &= 0xFF;
+        int const xi = xi0 & 0xFF;
 
         // Apply the fade function to the location
-        T u = fade(xf);
+        T const u = fade(xf);
 
         // Generate hash values for each point of the unit-line
-        int h0 = p[xi    ];
-        int h1 = p[xi + 1];
+        int const h0 = p[xi    ];
+        int const h1 = p[xi + 1];
 
         // Linearly interpolate between dot products of each gradient with its distance to the input location
         return lerp(dot_grad(h0, xf), dot_grad(h1, xf - T(1.0)), u);
@@ -185,74 +185,73 @@ namespace db {
     template<typename T>
     auto perlin(T x, T y) -> T {
         // Top-left coordinates of the unit-square
-        int xi = floor(x);
-        int yi = floor(y);
+        int const xi0 = floor(x) & 0xFF;
+        int const yi0 = floor(y) & 0xFF;
 
         // Input location in the unit-square
-        T xf = x - xi;
-        T yf = y - yi;
+        T const xf = x - T(xi0);
+        T const yf = y - T(yi0);
 
         // Wrap to range 0-255
-        xi &= 0xFF;
-        yi &= 0xFF;
+        int const xi = xi0 & 0xFF;
+        int const yi = yi0 & 0xFF;
 
         // Apply the fade function to the location
-        T u = fade(xf);
-        T v = fade(yf);
+        T const u = fade(xf);
+        T const v = fade(yf);
 
         // Generate hash values for each point of the unit-square
-        int h00 = p[p[xi    ] + yi    ];
-        int h01 = p[p[xi    ] + yi + 1];
-        int h10 = p[p[xi + 1] + yi    ];
-        int h11 = p[p[xi + 1] + yi + 1];
+        int const h00 = p[p[xi    ] + yi    ];
+        int const h01 = p[p[xi    ] + yi + 1];
+        int const h10 = p[p[xi + 1] + yi    ];
+        int const h11 = p[p[xi + 1] + yi + 1];
 
         // Linearly interpolate between dot products of each gradient with its distance to the input location
-        T x1 = lerp(dot_grad(h00, xf, yf         ), dot_grad(h10, xf - T(1.0), yf         ), u);
-        T x2 = lerp(dot_grad(h01, xf, yf - T(1.0)), dot_grad(h11, xf - T(1.0), yf - T(1.0)), u);
+        T const x1 = lerp(dot_grad(h00, xf, yf         ), dot_grad(h10, xf - T(1.0), yf         ), u);
+        T const x2 = lerp(dot_grad(h01, xf, yf - T(1.0)), dot_grad(h11, xf - T(1.0), yf - T(1.0)), u);
         return lerp(x1, x2, v);
     }
 
     template<typename T>
     auto perlin(T x, T y, T z) -> T {
         // Top-left coordinates of the unit-cube
-        int xi = floor(x);
-        int yi = floor(y);
-        int zi = floor(z);
+        int const xi0 = floor(x);
+        int const yi0 = floor(y);
+        int const zi0 = floor(z);
 
         // Input location in the unit-cube
-        T xf = x - xi;
-        T yf = y - yi;
-        T zf = z - zi;
+        T const xf = x - T(xi0);
+        T const yf = y - T(yi0);
+        T const zf = z - T(zi0);
 
         // Wrap to range 0-255
-        xi &= 0xFF;
-        yi &= 0xFF;
-        zi &= 0xFF;
+        int const xi = xi0 & 0xFF;
+        int const yi = yi0 & 0xFF;
+        int const zi = zi0 & 0xFF;
 
         // Apply the fade function to the location
-        T u = fade(xf);
-        T v = fade(yf);
-        T w = fade(zf);
+        T const u = fade(xf);
+        T const v = fade(yf);
+        T const w = fade(zf);
 
         // Generate hash values for each point of the unit-cube
-        int h000 = p[p[p[xi    ] + yi    ] + zi    ];
-        int h001 = p[p[p[xi    ] + yi    ] + zi + 1];
-        int h010 = p[p[p[xi    ] + yi + 1] + zi    ];
-        int h011 = p[p[p[xi    ] + yi + 1] + zi + 1];
-        int h100 = p[p[p[xi + 1] + yi    ] + zi    ];
-        int h101 = p[p[p[xi + 1] + yi    ] + zi + 1];
-        int h110 = p[p[p[xi + 1] + yi + 1] + zi    ];
-        int h111 = p[p[p[xi + 1] + yi + 1] + zi + 1];
+        int const h000 = p[p[p[xi    ] + yi    ] + zi    ];
+        int const h001 = p[p[p[xi    ] + yi    ] + zi + 1];
+        int const h010 = p[p[p[xi    ] + yi + 1] + zi    ];
+        int const h011 = p[p[p[xi    ] + yi + 1] + zi + 1];
+        int const h100 = p[p[p[xi + 1] + yi    ] + zi    ];
+        int const h101 = p[p[p[xi + 1] + yi    ] + zi + 1];
+        int const h110 = p[p[p[xi + 1] + yi + 1] + zi    ];
+        int const h111 = p[p[p[xi + 1] + yi + 1] + zi + 1];
 
         // Linearly interpolate between dot products of each gradient with its distance to the input location
-        T x1, x2, y1, y2;
-        x1 = lerp(dot_grad(h000, xf, yf         , zf         ), dot_grad(h100, xf - T(1.0), yf         , zf         ), u);
-        x2 = lerp(dot_grad(h010, xf, yf - T(1.0), zf         ), dot_grad(h110, xf - T(1.0), yf - T(1.0), zf         ), u);
-        y1 = lerp(x1, x2, v);
+        T const x11 = lerp(dot_grad(h000, xf, yf         , zf         ), dot_grad(h100, xf - T(1.0), yf         , zf         ), u);
+        T const x12 = lerp(dot_grad(h010, xf, yf - T(1.0), zf         ), dot_grad(h110, xf - T(1.0), yf - T(1.0), zf         ), u);
+        T const y1 = lerp(x11, x12, v);
 
-        x1 = lerp(dot_grad(h001, xf, yf         , zf - T(1.0)), dot_grad(h101, xf - T(1.0), yf         , zf - T(1.0)), u);
-        x2 = lerp(dot_grad(h011, xf, yf - T(1.0), zf - T(1.0)), dot_grad(h111, xf - T(1.0), yf - T(1.0), zf - T(1.0)), u);
-        y2 = lerp(x1, x2, v);
+        T const x21 = lerp(dot_grad(h001, xf, yf         , zf - T(1.0)), dot_grad(h101, xf - T(1.0), yf         , zf - T(1.0)), u);
+        T const x22 = lerp(dot_grad(h011, xf, yf - T(1.0), zf - T(1.0)), dot_grad(h111, xf - T(1.0), yf - T(1.0), zf - T(1.0)), u);
+        T const y2 = lerp(x21, x22, v);
 
         return lerp(y1, y2, w);
     }
