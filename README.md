@@ -4,9 +4,9 @@
 
 ## About
 
-Quick and simple implementation of Perlin Noise algorithm in 1D, 2D, and 3D in C++ with no external dependencies. This
-code may easily be reused by simply including the header into any project along with a `DB_PERLIN_IMPL` definition. All
-relevant code is written as a small set of pure functions that work with both floats and doubles.
+Quick and simple implementation of Perlin Noise algorithm in 1D, 2D, and 3D in C++11 with no external dependencies.
+This code may be easily used by simply including the header into any project along with a `DB_PERLIN_IMPL` definition.
+All relevant code is written as a small set of pure functions that work with both floats and doubles.
 
 I wrote this with the primary goal of having a bit of fun and learning more about the famous algorithm used everywhere
 in procedural generation. Ultimately, my goal was to use this implementation in several other projects (it's always good
