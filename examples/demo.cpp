@@ -5,17 +5,18 @@
  * https://www.sfml-dev.org/
  */
 
+#include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
 #define DB_PERLIN_IMPL
 #include "../db_perlin.hpp"
 
-int main() {
-    int const width { 800 };
-    int const height { 600 };
+auto main() -> int {
+    auto const width { 800 };
+    auto const height { 600 };
 
     sf::RenderWindow window {
-        sf::VideoMode { width, height },"Perlin Noise"
+        sf::VideoMode { width, height }, "Perlin Noise"
     };
 
     window.setFramerateLimit(60);
@@ -42,11 +43,11 @@ int main() {
         for (auto y = 0u; y < height; ++y) {
             for (auto x = 0u; x < width; ++x) {
                 auto const noise = (
-                    db::perlin(float(x) / 64.0f, float(y) / 64.0f, dt * 0.25f) * 1.0f +
-                    db::perlin(float(x) / 32.0f, float(y) / 32.0f, dt * 0.75f) * 0.5f
-                ) / 1.5f;
+                    db::perlin(double(x) / 64.0, double(y) / 64.0, dt * 0.25) * 1.0 +
+                    db::perlin(double(x) / 32.0, double(y) / 32.0, dt * 0.75) * 0.5
+                ) / 1.5;
 
-                auto const brightness = sf::Uint8((noise * 0.5f + 0.5f) * 255.0f);
+                auto const brightness = sf::Uint8((noise * 0.5 + 0.5) * 255.0);
                 image.setPixel(x, y, sf::Color(brightness, brightness, brightness));
             }
         }

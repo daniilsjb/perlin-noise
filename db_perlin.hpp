@@ -38,13 +38,13 @@
 
 namespace db {
     template<typename T>
-    auto perlin(T x) -> T;
+    constexpr auto perlin(T x) -> T;
 
     template<typename T>
-    auto perlin(T x, T y) -> T;
+    constexpr auto perlin(T x, T y) -> T;
 
     template<typename T>
-    auto perlin(T x, T y, T z) -> T;
+    constexpr auto perlin(T x, T y, T z) -> T;
 }
 
 #ifdef DB_PERLIN_IMPL
@@ -63,7 +63,7 @@ namespace db {
 
 namespace db {
     // Permutation table, the second half is a mirror of the first half.
-    static unsigned char const p[512] = {
+    static constexpr unsigned char p[512] = {
         151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142,
         8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203,
         117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74,
@@ -94,30 +94,30 @@ namespace db {
     };
 
     template<typename T>
-    static inline auto lerp(T a, T b, T t) -> T {
+    static constexpr auto lerp(T a, T b, T t) -> T {
         return a + t * (b - a);
     }
 
     template<typename T>
-    static inline auto floor(T x) -> int {
+    static constexpr auto floor(T x) -> int {
         auto const xi = int(x);
         return (x < T(xi)) ? xi - 1 : xi;
     }
 
     template<typename T>
-    static inline auto fade(T t) -> T {
+    static constexpr auto fade(T t) -> T {
         return t * t * t * (t * (t * T(6.0) - T(15.0)) + T(10.0));
     }
 
     template<typename T>
-    static inline auto dot_grad(int hash, T xf) -> T {
+    static constexpr auto dot_grad(int hash, T xf) -> T {
         // In 1D case, the gradient may be either 1 or -1
         // The distance vector is the input offset (relative to the smallest bound)
         return (hash & 0x1) ? xf : -xf;
     }
 
     template<typename T>
-    static inline auto dot_grad(int hash, T xf, T yf) -> T {
+    static constexpr auto dot_grad(int hash, T xf, T yf) -> T {
         // In 2D case, the gradient may be any of 8 direction vectors pointing to the
         // edges of a unit-square. The distance vector is the input offset (relative to
         // the smallest bound)
@@ -135,7 +135,7 @@ namespace db {
     }
 
     template<typename T>
-    static inline auto dot_grad(int hash, T xf, T yf, T zf) -> T {
+    static constexpr auto dot_grad(int hash, T xf, T yf, T zf) -> T {
         // In 3D case, the gradient may be any of 12 direction vectors pointing to the edges
         // of a unit-cube (rounded to 16 with duplications). The distance vector is the input
         // offset (relative to the smallest bound)
@@ -161,7 +161,7 @@ namespace db {
     }
 
     template<typename T>
-    auto perlin(T x) -> T {
+    constexpr auto perlin(T x) -> T {
         // Left coordinate of the unit-line that contains the input
         int const xi0 = floor(x);
 
@@ -184,7 +184,7 @@ namespace db {
     }
 
     template<typename T>
-    auto perlin(T x, T y) -> T {
+    constexpr auto perlin(T x, T y) -> T {
         // Top-left coordinates of the unit-square
         int const xi0 = floor(x) & 0xFF;
         int const yi0 = floor(y) & 0xFF;
@@ -216,7 +216,7 @@ namespace db {
     }
 
     template<typename T>
-    auto perlin(T x, T y, T z) -> T {
+    constexpr auto perlin(T x, T y, T z) -> T {
         // Top-left coordinates of the unit-cube
         int const xi0 = floor(x);
         int const yi0 = floor(y);
