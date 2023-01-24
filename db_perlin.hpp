@@ -57,7 +57,7 @@ namespace db {
  * - https://mrl.cs.nyu.edu/~perlin/noise/
  *
  * Here are some alternative implementations that were used as inspirations:
- * - https://github.com/nothings/stb/blob/08e89524f693651819c4de2a29685b36301a08b1/stb_perlin.h [removed from upstream]
+ * - https://github.com/nothings/stb/blob/master/stb_perlin.h
  * - https://github.com/stegu/perlin-noise/blob/master/src/noise1234.c
  */
 
