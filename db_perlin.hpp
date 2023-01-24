@@ -111,8 +111,8 @@ namespace db {
 
     template<typename T>
     static constexpr auto dot_grad(int hash, T xf) -> T {
-        // In 1D case, the gradient may be either 1 or -1
-        // The distance vector is the input offset (relative to the smallest bound)
+        // In 1D case, the gradient may be either 1 or -1.
+        // The distance vector is the input offset (relative to the smallest bound).
         return (hash & 0x1) ? xf : -xf;
     }
 
@@ -120,7 +120,7 @@ namespace db {
     static constexpr auto dot_grad(int hash, T xf, T yf) -> T {
         // In 2D case, the gradient may be any of 8 direction vectors pointing to the
         // edges of a unit-square. The distance vector is the input offset (relative to
-        // the smallest bound)
+        // the smallest bound).
         switch (hash & 0x7) {
             case 0x0: return  xf + yf;
             case 0x1: return  xf;
@@ -138,7 +138,7 @@ namespace db {
     static constexpr auto dot_grad(int hash, T xf, T yf, T zf) -> T {
         // In 3D case, the gradient may be any of 12 direction vectors pointing to the edges
         // of a unit-cube (rounded to 16 with duplications). The distance vector is the input
-        // offset (relative to the smallest bound)
+        // offset (relative to the smallest bound).
         switch (hash & 0xF) {
             case 0x0: return  xf + yf;
             case 0x1: return -xf + yf;
@@ -162,54 +162,54 @@ namespace db {
 
     template<typename T>
     constexpr auto perlin(T x) -> T {
-        // Left coordinate of the unit-line that contains the input
+        // Left coordinate of the unit-line that contains the input.
         int const xi0 = floor(x);
 
-        // Input location in the unit-line
+        // Input location in the unit-line.
         T const xf0 = x - T(xi0);
         T const xf1 = xf0 - T(1.0);
 
-        // Wrap to range 0-255
+        // Wrap to range 0-255.
         int const xi = xi0 & 0xFF;
 
-        // Apply the fade function to the location
+        // Apply the fade function to the location.
         T const u = fade(xf0);
 
-        // Generate hash values for each point of the unit-line
+        // Generate hash values for each point of the unit-line.
         int const h0 = p[xi + 0];
         int const h1 = p[xi + 1];
 
-        // Linearly interpolate between dot products of each gradient with its distance to the input location
+        // Linearly interpolate between dot products of each gradient with its distance to the input location.
         return lerp(dot_grad(h0, xf0), dot_grad(h1, xf1), u);
     }
 
     template<typename T>
     constexpr auto perlin(T x, T y) -> T {
-        // Top-left coordinates of the unit-square
+        // Top-left coordinates of the unit-square.
         int const xi0 = floor(x) & 0xFF;
         int const yi0 = floor(y) & 0xFF;
 
-        // Input location in the unit-square
+        // Input location in the unit-square.
         T const xf0 = x - T(xi0);
         T const yf0 = y - T(yi0);
         T const xf1 = xf0 - T(1.0);
         T const yf1 = yf0 - T(1.0);
 
-        // Wrap to range 0-255
+        // Wrap to range 0-255.
         int const xi = xi0 & 0xFF;
         int const yi = yi0 & 0xFF;
 
-        // Apply the fade function to the location
+        // Apply the fade function to the location.
         T const u = fade(xf0);
         T const v = fade(yf0);
 
-        // Generate hash values for each point of the unit-square
+        // Generate hash values for each point of the unit-square.
         int const h00 = p[p[xi + 0] + yi + 0];
         int const h01 = p[p[xi + 0] + yi + 1];
         int const h10 = p[p[xi + 1] + yi + 0];
         int const h11 = p[p[xi + 1] + yi + 1];
 
-        // Linearly interpolate between dot products of each gradient with its distance to the input location
+        // Linearly interpolate between dot products of each gradient with its distance to the input location.
         T const x1 = lerp(dot_grad(h00, xf0, yf0), dot_grad(h10, xf1, yf0), u);
         T const x2 = lerp(dot_grad(h01, xf0, yf1), dot_grad(h11, xf1, yf1), u);
         return lerp(x1, x2, v);
@@ -217,12 +217,12 @@ namespace db {
 
     template<typename T>
     constexpr auto perlin(T x, T y, T z) -> T {
-        // Top-left coordinates of the unit-cube
+        // Top-left coordinates of the unit-cube.
         int const xi0 = floor(x);
         int const yi0 = floor(y);
         int const zi0 = floor(z);
 
-        // Input location in the unit-cube
+        // Input location in the unit-cube.
         T const xf0 = x - T(xi0);
         T const yf0 = y - T(yi0);
         T const zf0 = z - T(zi0);
@@ -230,17 +230,17 @@ namespace db {
         T const yf1 = yf0 - T(1.0);
         T const zf1 = zf0 - T(1.0);
 
-        // Wrap to range 0-255
+        // Wrap to range 0-255.
         int const xi = xi0 & 0xFF;
         int const yi = yi0 & 0xFF;
         int const zi = zi0 & 0xFF;
 
-        // Apply the fade function to the location
+        // Apply the fade function to the location.
         T const u = fade(xf0);
         T const v = fade(yf0);
         T const w = fade(zf0);
 
-        // Generate hash values for each point of the unit-cube
+        // Generate hash values for each point of the unit-cube.
         int const h000 = p[p[p[xi + 0] + yi + 0] + zi + 0];
         int const h001 = p[p[p[xi + 0] + yi + 0] + zi + 1];
         int const h010 = p[p[p[xi + 0] + yi + 1] + zi + 0];
@@ -250,7 +250,7 @@ namespace db {
         int const h110 = p[p[p[xi + 1] + yi + 1] + zi + 0];
         int const h111 = p[p[p[xi + 1] + yi + 1] + zi + 1];
 
-        // Linearly interpolate between dot products of each gradient with its distance to the input location
+        // Linearly interpolate between dot products of each gradient with its distance to the input location.
         T const x11 = lerp(dot_grad(h000, xf0, yf0, zf0), dot_grad(h100, xf1, yf0, zf0), u);
         T const x12 = lerp(dot_grad(h010, xf0, yf1, zf0), dot_grad(h110, xf1, yf1, zf0), u);
         T const x21 = lerp(dot_grad(h001, xf0, yf0, zf1), dot_grad(h101, xf1, yf0, zf1), u);
