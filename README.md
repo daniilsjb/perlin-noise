@@ -33,13 +33,13 @@ Then you may use it from other files as you normally would any header file:
 #include "db_perlin.hpp"
 
 int main() {
-    float x = /* ... */;
-    float y = /* ... */;
-    float z = /* ... */;
+    double x = /* ... */;
+    double y = /* ... */;
+    double z = /* ... */;
     
-    float noise1D = db::perlin(x);
-    float noise2D = db::perlin(x, y);
-    float noise3D = db::perlin(x, y, z);
+    double noise1D = db::perlin(x);
+    double noise2D = db::perlin(x, y);
+    double noise3D = db::perlin(x, y, z);
 }
 ```
 
@@ -53,13 +53,13 @@ source as the implementation:
 #include "db_perlin.hpp"
 
 int main() {
-    float x = /* ... */;
-    float y = /* ... */;
-    float z = /* ... */;
-    
-    float noise1D = db::perlin(x);
-    float noise2D = db::perlin(x, y);
-    float noise3D = db::perlin(x, y, z);
+    double x = /* ... */;
+    double y = /* ... */;
+    double z = /* ... */;
+
+    double noise1D = db::perlin(x);
+    double noise2D = db::perlin(x, y);
+    double noise3D = db::perlin(x, y, z);
 }
 ```
 
