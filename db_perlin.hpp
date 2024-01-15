@@ -278,7 +278,7 @@ template auto db::perlin<double>(double x, double y, double z) -> double;
 /*
 MIT License
 
-Copyright (c) 2020-2023 Daniils Buts
+Copyright (c) 2020-2024 Daniils Buts
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
