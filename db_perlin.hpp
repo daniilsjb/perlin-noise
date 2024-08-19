@@ -186,8 +186,8 @@ namespace db {
     template<typename T>
     constexpr auto perlin(T x, T y) -> T {
         // Top-left coordinates of the unit-square.
-        int const xi0 = floor(x) & 0xFF;
-        int const yi0 = floor(y) & 0xFF;
+        int const xi0 = floor(x);
+        int const yi0 = floor(y);
 
         // Input location in the unit-square.
         T const xf0 = x - T(xi0);
