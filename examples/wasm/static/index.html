@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perlin Noise</title>
+    <link rel="stylesheet" href="pico.min.css" />
+    <style>
+      body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+      }
+
+      #canvas {
+        border-style: solid;
+        border-width: 1px;
+        border-color: var(--pico-muted-border-color);
+        border-radius: 8px;
+      }
+
+      #settings {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #settings > header {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      #actions {
+        display: flex;
+        gap: 16px;
+      }
+
+      #coordinates {
+        font-size: medium;
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+          height: auto;
+          gap: 16px;
+        }
+
+        #canvas {
+          margin-top: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <article id="settings">
+      <header>
+        <span>Settings</span>
+        <div id="actions">
+          <a href="https://github.com/daniilsjb/perlin-noise" target="_blank" data-tooltip="Source code">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-brand-github">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M5.315 2.1c.791 -.113 1.9 .145 3.333 .966l.272 .161l.16 .1l.397 -.083a13.3 13.3 0 0 1 4.59 -.08l.456 .08l.396 .083l.161 -.1c1.385 -.84 2.487 -1.17 3.322 -1.148l.164 .008l.147 .017l.076 .014l.05 .011l.144 .047a1 1 0 0 1 .53 .514a5.2 5.2 0 0 1 .397 2.91l-.047 .267l-.046 .196l.123 .163c.574 .795 .93 1.728 1.03 2.707l.023 .295l.007 .272c0 3.855 -1.659 5.883 -4.644 6.68l-.245 .061l-.132 .029l.014 .161l.008 .157l.004 .365l-.002 .213l-.003 3.834a1 1 0 0 1 -.883 .993l-.117 .007h-6a1 1 0 0 1 -.993 -.883l-.007 -.117v-.734c-1.818 .26 -3.03 -.424 -4.11 -1.878l-.535 -.766c-.28 -.396 -.455 -.579 -.589 -.644l-.048 -.019a1 1 0 0 1 .564 -1.918c.642 .188 1.074 .568 1.57 1.239l.538 .769c.76 1.079 1.36 1.459 2.609 1.191l.001 -.678l-.018 -.168a5.03 5.03 0 0 1 -.021 -.824l.017 -.185l.019 -.12l-.108 -.024c-2.976 -.71 -4.703 -2.573 -4.875 -6.139l-.01 -.31l-.004 -.292a5.6 5.6 0 0 1 .908 -3.051l.152 -.222l.122 -.163l-.045 -.196a5.2 5.2 0 0 1 .145 -2.642l.1 -.282l.106 -.253a1 1 0 0 1 .529 -.514l.144 -.047l.154 -.03z" />
+            </svg>
+          </a>
+          <a href="#" id="color-scheme-toggle" data-tooltip="Toggle scheme">
+            <!-- Will be populated dynamically. -->
+          </a>
+        </div>
+      </header>
+      <select id="mode-select">
+        <option>1D</option>
+        <option>2D</option>
+        <option>3D</option>
+      </select>
+      <label id="speed">
+        <span id="speed-label">Speed: 100%</span>
+        <input id="speed-slider" type="range" min="0" max="200" value="100" step="1" />
+      </label>
+      <label id="octaves">
+        <span id="octaves-label">Octaves: 1</span>
+        <input id="octaves-slider" type="range" min="1" max="8" value="1" step="1" />
+      </label>
+      <label id="persistence">
+        <span id="persistence-label"> Persistence: 0.5 </span>
+        <input id="persistence-slider" type="range" min="0.1" max="1" value="0.5" step="0.1" />
+      </label>
+      <footer>
+        <div id="coordinates">(0.00, 0.00)</div>
+      </footer>
+    </article>
+
+    <script src="db_perlin.js"></script>
+    <script>
+      const w = 400, h = 400;
+
+      const root = document.querySelector("html");
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+
+      canvas.width = w;
+      canvas.height = h;
+      canvas.style.cursor = "grab";
+
+      const image = context.createImageData(w, h);
+      const imageCenter = { x: 0, y: 0 };
+      const imageCoordinates = document.getElementById("coordinates");
+      const dragging = {
+        start: { x: 0, y: 0 },
+        offset: { x: 0, y: 0 },
+        active: false,
+      };
+
+      const draggingStart = (e) => {
+        dragging.active = true;
+        dragging.start.x = e.clientX;
+        dragging.start.y = e.clientY;
+        canvas.style.cursor = "grabbing";
+      };
+
+      const draggingMove = (e) => {
+        if (!dragging.active) return;
+        dragging.offset.x = e.clientX - dragging.start.x;
+        dragging.offset.y = e.clientY - dragging.start.y;
+      };
+
+      const draggingStop = (e) => {
+        imageCenter.x -= dragging.offset.x / zoom;
+        imageCenter.y -= dragging.offset.y / zoom;
+        dragging.start.x = 0;
+        dragging.start.y = 0;
+        dragging.offset.x = 0;
+        dragging.offset.y = 0;
+        dragging.active = false;
+        canvas.style.cursor = "grab";
+      };
+
+      canvas.addEventListener("mousedown", draggingStart);
+      canvas.addEventListener("mousemove", draggingMove);
+      canvas.addEventListener("mouseup", draggingStop);
+      canvas.addEventListener("mouseleave", draggingStop);
+
+      function plotGrayscalePixel(x, y, f) {
+        const pixelStart = (y * w + x) * 4;
+        const pixelValue = (f * 0.5 + 0.5) * 255;
+
+        image.data[pixelStart + 0] = pixelValue;
+        image.data[pixelStart + 1] = pixelValue;
+        image.data[pixelStart + 2] = pixelValue;
+        image.data[pixelStart + 3] = 255;
+      }
+
+      let zoom = 32;
+      const ZOOM_MIN = 16;
+      const ZOOM_MAX = 128;
+      const ZOOM_SPEED = 10;
+
+      canvas.addEventListener("wheel", (e) => {
+        zoom -= (e.deltaY >= 0 ? 1 : -1) * ZOOM_SPEED;
+        if (zoom < ZOOM_MIN) zoom = ZOOM_MIN;
+        if (zoom > ZOOM_MAX) zoom = ZOOM_MAX;
+        e.preventDefault();
+      });
+
+      let speed = undefined;
+      const speedLabel = document.getElementById("speed-label");
+      const speedSlider = document.getElementById("speed-slider");
+      const updateSpeed = () => {
+        speed = Number(speedSlider.value);
+        speedLabel.innerText = `Speed: ${speed}%`;
+      }
+
+      speedSlider.addEventListener("input", updateSpeed);
+      updateSpeed();
+
+      let octaves = undefined;
+      const octavesLabel = document.getElementById("octaves-label");
+      const octavesSlider = document.getElementById("octaves-slider");
+      const updateOctaves = () => {
+        octaves = Number(octavesSlider.value);
+        octavesLabel.innerText = `Octaves: ${octaves}`;
+      };
+
+      octavesSlider.addEventListener("input", updateOctaves);
+      updateOctaves();
+
+      let persistence = undefined;
+      const persistenceLabel = document.getElementById("persistence-label");
+      const persistenceSlider = document.getElementById("persistence-slider");
+      const updatePersistence = () => {
+        persistence = Number(persistenceSlider.value);
+        persistenceLabel.innerText = `Persistence: ${persistence}`;
+      };
+
+      persistenceSlider.addEventListener("input", updatePersistence);
+      updatePersistence();
+
+      const modeSelect = document.getElementById("mode-select");
+      const updateMode = () => {
+        if (modeSelect.value === "3D") {
+          document.getElementById("speed").style.display = "";
+        } else {
+          document.getElementById("speed").style.display = "none";
+        }
+      };
+
+      modeSelect.addEventListener("input", updateMode);
+      updateMode();
+
+      const colorSchemeIconLight = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-sun">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M12 19a1 1 0 0 1 .993 .883l.007 .117v1a1 1 0 0 1 -1.993 .117l-.007 -.117v-1a1 1 0 0 1 1 -1z" />
+          <path d="M18.313 16.91l.094 .083l.7 .7a1 1 0 0 1 -1.32 1.497l-.094 -.083l-.7 -.7a1 1 0 0 1 1.218 -1.567l.102 .07z" />
+          <path d="M7.007 16.993a1 1 0 0 1 .083 1.32l-.083 .094l-.7 .7a1 1 0 0 1 -1.497 -1.32l.083 -.094l.7 -.7a1 1 0 0 1 1.414 0z" />
+          <path d="M4 11a1 1 0 0 1 .117 1.993l-.117 .007h-1a1 1 0 0 1 -.117 -1.993l.117 -.007h1z" />
+          <path d="M21 11a1 1 0 0 1 .117 1.993l-.117 .007h-1a1 1 0 0 1 -.117 -1.993l.117 -.007h1z" />
+          <path d="M6.213 4.81l.094 .083l.7 .7a1 1 0 0 1 -1.32 1.497l-.094 -.083l-.7 -.7a1 1 0 0 1 1.217 -1.567l.102 .07z" />
+          <path d="M19.107 4.893a1 1 0 0 1 .083 1.32l-.083 .094l-.7 .7a1 1 0 0 1 -1.497 -1.32l.083 -.094l.7 -.7a1 1 0 0 1 1.414 0z" />
+          <path d="M12 2a1 1 0 0 1 .993 .883l.007 .117v1a1 1 0 0 1 -1.993 .117l-.007 -.117v-1a1 1 0 0 1 1 -1z" />
+          <path d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z" />
+        </svg>
+      `;
+
+      const colorSchemeIconDark = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-moon">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M12 1.992a10 10 0 1 0 9.236 13.838c.341 -.82 -.476 -1.644 -1.298 -1.31a6.5 6.5 0 0 1 -6.864 -10.787l.077 -.08c.551 -.63 .113 -1.653 -.758 -1.653h-.266l-.068 -.006l-.06 -.002z" />
+        </svg>
+      `;
+
+      const colorSchemeToggle = document.getElementById("color-scheme-toggle");
+      const setColorScheme = (scheme) => {
+        root.setAttribute("data-theme", scheme);
+        colorSchemeToggle.innerHTML = scheme === "dark"
+          ? colorSchemeIconDark
+          : colorSchemeIconLight;
+      };
+      const preferredColorScheme = window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .matches ? "dark" : "light";
+
+      setColorScheme(preferredColorScheme);
+
+      colorSchemeToggle.addEventListener("click", () => {
+        const selectedColorScheme = root.getAttribute("data-theme");
+        setColorScheme(selectedColorScheme === "light" ? "dark" : "light");
+      });
+
+      const perlin1D = (x, y, t) => Module.perlin1d(x);
+      const perlin2D = (x, y, t) => Module.perlin2d(x, y);
+      const perlin3D = (x, y, t) => Module.perlin3d(x, y, t);
+
+      function noise(f, x, y, t) {
+        let frequency = 1;
+        let amplitude = 1;
+        let amplitudeTotal = 0;
+        let noise = 0;
+
+        for (let i = 0; i < octaves; ++i) {
+          noise += f(x * frequency, y * frequency, t) * amplitude;
+          amplitudeTotal += amplitude;
+          amplitude *= persistence;
+          frequency *= 2;
+        }
+
+        noise /= amplitudeTotal;
+        return noise;
+      }
+
+      function update1D(cx) {
+        imageCoordinates.innerText = `(${cx.toFixed(2)})`;
+
+        const selectedColorScheme = root.getAttribute("data-theme") === "light"
+          ? { fillColor: "#ffffff", strokeColor: "#373c44" }
+          : { fillColor: "#181c25", strokeColor: "#dfe3eb" };
+
+          context.fillStyle = selectedColorScheme.fillColor;
+          context.fillRect(0, 0, w, h);
+
+          context.beginPath();
+
+          for (let x = 0; x < w; ++x) {
+            const px = cx + (x - w / 2) / zoom;
+            const pf = noise(perlin1D, px);
+
+            const y = Math.floor((pf * 0.5 + 0.5) * h);
+            context.lineTo(x, y);
+          }
+
+          context.strokeStyle = selectedColorScheme.strokeColor;
+          context.stroke();
+      }
+
+      function update2D(cx, cy) {
+        imageCoordinates.innerText = `(${cx.toFixed(2)}, ${cy.toFixed(2)})`;
+
+        for (let y = 0; y < h; ++y) {
+          for (let x = 0; x < w; ++x) {
+            const px = cx + (x - w / 2) / zoom;
+            const py = cy + (y - h / 2) / zoom;
+            const pf = noise(perlin2D, px, py);
+            plotGrayscalePixel(x, y, pf);
+          }
+        }
+
+        context.putImageData(image, 0, 0);
+      }
+
+      let time = 0;
+      function update3D(cx, cy) {
+        imageCoordinates.innerText = `(${cx.toFixed(2)}, ${cy.toFixed(2)}, ${time.toFixed(2)})`;
+
+        for (let y = 0; y < h; ++y) {
+          for (let x = 0; x < w; ++x) {
+            const px = cx + (x - w / 2) / zoom;
+            const py = cy + (y - h / 2) / zoom;
+            const pf = noise(perlin3D, px, py, time);
+            plotGrayscalePixel(x, y, pf);
+          }
+        }
+
+        context.putImageData(image, 0, 0);
+        time += speed * 0.0005;
+      }
+
+      function loop() {
+        const cx = imageCenter.x - dragging.offset.x / zoom;
+        const cy = imageCenter.y - dragging.offset.y / zoom;
+
+        switch (modeSelect.value) {
+          case "1D": update1D(cx, cy); break;
+          case "2D": update2D(cx, cy); break;
+          case "3D": update3D(cx, cy); break;
+        }
+
+        requestAnimationFrame(loop);
+      }
+
+      Module.onRuntimeInitialized = loop;
+    </script>
+  </body>
+</html>

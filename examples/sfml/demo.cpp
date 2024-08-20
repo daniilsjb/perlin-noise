@@ -9,7 +9,7 @@
 #include <SFML/Graphics.hpp>
 
 #define DB_PERLIN_IMPL
-#include "../db_perlin.hpp"
+#include "../../db_perlin.hpp"
 
 auto main() -> int {
     auto const width { 800 };

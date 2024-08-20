@@ -3,7 +3,11 @@ build/
 bin/
 out/
 
-# Compiled Object files
+# Emscripten Artifacts
+examples/wasm/static/*.js
+examples/wasm/static/*.wasm
+
+# Compiled Object Files
 *.slo
 *.lo
 *.o
@@ -13,12 +17,12 @@ out/
 *.gch
 *.pch
 
-# Compiled Dynamic libraries
+# Compiled Dynamic Libraries
 *.so
 *.dylib
 *.dll
 
-# Compiled Static libraries
+# Compiled Static Libraries
 *.lai
 *.la
 *.a
