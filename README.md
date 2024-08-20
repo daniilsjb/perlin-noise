@@ -1,6 +1,6 @@
 # Perlin Noise
 
-![Preview Image](preview/noise.gif)
+![Preview Image](.github/noise.png)
 
 ## About
 
@@ -33,13 +33,13 @@ Then you may use it from other files as you normally would any header file:
 #include "db_perlin.hpp"
 
 int main() {
-    double x = /* ... */;
-    double y = /* ... */;
-    double z = /* ... */;
-    
-    double noise1D = db::perlin(x);
-    double noise2D = db::perlin(x, y);
-    double noise3D = db::perlin(x, y, z);
+double x = /* ... */;
+double y = /* ... */;
+double z = /* ... */;
+
+double noise1D = db::perlin(x);
+double noise2D = db::perlin(x, y);
+double noise3D = db::perlin(x, y, z);
 }
 ```
 
@@ -53,20 +53,33 @@ source as the implementation:
 #include "db_perlin.hpp"
 
 int main() {
-    double x = /* ... */;
-    double y = /* ... */;
-    double z = /* ... */;
+double x = /* ... */;
+double y = /* ... */;
+double z = /* ... */;
 
-    double noise1D = db::perlin(x);
-    double noise2D = db::perlin(x, y);
-    double noise3D = db::perlin(x, y, z);
+double noise1D = db::perlin(x);
+double noise2D = db::perlin(x, y);
+double noise3D = db::perlin(x, y, z);
 }
 ```
 
-## Demo
+Additionally, you may use this library in your JavaScript application by compiling the code as a WASM module using [Emscripten][1].
+To automatically generate bindings, simply include the `db_perlin_wasm.hpp` header alongside the implementation:
 
-A more detailed example is provided with this repository in [examples/demo.cpp](examples/demo.cpp) file. It is a small
-demonstration written with [SFML][1] that displays the 3D noise as an animated grayscale with respect to time.
+```cpp
+// file: db_perlin.cpp
+
+#define DB_PERLIN_IMPL
+#include "db_perlin.hpp"
+#include "db_perlin_wasm.hpp"
+```
+
+## Examples
+
+This repository contains two examples of noise generation:
+
+* C++ program which generates a .BMP file of the 2D noise gradient ([examples/bmp](examples/bmp)).
+* WASM-based JavaScript application with interactive controls, zooming, and panning ([examples/wasm](examples/wasm)).
 
 [0]: https://github.com/nothings/stb
-[1]: https://www.sfml-dev.org/
+[1]: https://emscripten.org/
