@@ -2,11 +2,17 @@
 
 ![Preview Image](.github/noise.png)
 
-## About
+## Features
 
-Quick and simple implementation of Perlin Noise algorithm in 1D, 2D, and 3D in C++11 with no external dependencies.
-This code may be easily used by simply including the header into any project along with a `DB_PERLIN_IMPL` definition.
-All relevant code is written as a small set of pure functions that work with both floats and doubles.
+* Simple implementation of the Perlin noise algorithm in 1D, 2D, and 3D.
+* Pure C++11 without any dependencies on standard or external libraries.
+* Templated functions with specializations for `float` and `double` data types.
+* An [stb][0]-style single-header library that can be easily included into any project.
+* Support for WebAssembly compilation through [Emscripten bindings](./db_perlin_wasm.hpp).
+* Interactive [web demonstration](https://daniilsjb.github.io/perlin-noise/) with sliders, zooming and panning.
+* Example of writing a noise gradient to a [simple bitmap file](./examples/bmp/main.cpp).
+
+## About
 
 I wrote this with the primary goal of having a bit of fun and learning more about the famous algorithm used everywhere
 in procedural generation. Ultimately, my goal was to use this implementation in several other projects (it's always good
@@ -23,23 +29,19 @@ the header. You may create a dedicated file to serve as the implementation:
 
 #define DB_PERLIN_IMPL
 #include "db_perlin.hpp"
-```
 
-Then you may use it from other files as you normally would any header file:
-
-```cpp
 // file: main.cpp
 
 #include "db_perlin.hpp"
 
 int main() {
-double x = /* ... */;
-double y = /* ... */;
-double z = /* ... */;
+  double x = /* ... */;
+  double y = /* ... */;
+  double z = /* ... */;
 
-double noise1D = db::perlin(x);
-double noise2D = db::perlin(x, y);
-double noise3D = db::perlin(x, y, z);
+  double noise1D = db::perlin(x);
+  double noise2D = db::perlin(x, y);
+  double noise3D = db::perlin(x, y, z);
 }
 ```
 
@@ -53,13 +55,13 @@ source as the implementation:
 #include "db_perlin.hpp"
 
 int main() {
-double x = /* ... */;
-double y = /* ... */;
-double z = /* ... */;
+  double x = /* ... */;
+  double y = /* ... */;
+  double z = /* ... */;
 
-double noise1D = db::perlin(x);
-double noise2D = db::perlin(x, y);
-double noise3D = db::perlin(x, y, z);
+  double noise1D = db::perlin(x);
+  double noise2D = db::perlin(x, y);
+  double noise3D = db::perlin(x, y, z);
 }
 ```
 
@@ -73,13 +75,6 @@ To automatically generate bindings, simply include the `db_perlin_wasm.hpp` head
 #include "db_perlin.hpp"
 #include "db_perlin_wasm.hpp"
 ```
-
-## Examples
-
-This repository contains two examples of noise generation:
-
-* C++ program which generates a .BMP file of the 2D noise gradient ([examples/bmp](examples/bmp)).
-* WASM-based JavaScript application with interactive controls, zooming, and panning ([examples/wasm](examples/wasm)).
 
 [0]: https://github.com/nothings/stb
 [1]: https://emscripten.org/
