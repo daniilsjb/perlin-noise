@@ -56,7 +56,7 @@ int main() {
 }
 ```
 
-Depending on your needs a preference, you may either place the implementation of the library in a dedicated source file or embed
+Depending on your needs and preferences, you may either place the implementation of the library in a dedicated source file or embed
 it directly into another source file that uses the library. See the [examples](./examples) directory for details.
 
 ## References
