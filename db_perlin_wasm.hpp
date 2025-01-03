@@ -70,7 +70,7 @@ EMSCRIPTEN_BINDINGS(db_perlin) {
 /*
 MIT License
 
-Copyright (c) 2020-2024 Daniils Buts
+Copyright (c) 2020-2025 Daniils Buts
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
